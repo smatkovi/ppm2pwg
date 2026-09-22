@@ -63,6 +63,12 @@ int pdf_to_printable(std::string inFile, WriteFun writeFun, const PrintParameter
   }
 
   #if MADNESS
+// glib initialises its type system by itself only from 2.36 on. On Harmattan
+// (glib 2.24) poppler's first call walks an empty type table and the process
+// dies on the spot, so the old entry point is called first.
+#if !GLIB_CHECK_VERSION(2, 36, 0)
+  g_type_init();
+#endif
   #include "libfuncs"
   #endif
 
@@ -123,7 +129,11 @@ int pdf_to_printable(std::string inFile, WriteFun writeFun, const PrintParameter
     surface = cairo_pdf_surface_create_for_stream(bytestream_writer, &outBts,
                                                   params.getPaperSizeWInPoints(),
                                                   params.getPaperSizeHInPoints());
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 16, 0)
+    // The PDF metadata API arrived in cairo 1.16; the N9 has 1.10, where the
+    // symbol is simply not there to dlsym. Only the Creator string is lost.
     cairo_pdf_surface_set_metadata(surface, CAIRO_PDF_METADATA_CREATOR, PDF_CREATOR);
+#endif
   }
   else if(params.format == PrintParameters::Postscript)
   {

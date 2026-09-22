@@ -15,7 +15,10 @@ CurlRequester::CurlRequester(std::string addr, bool ignoreSslErrors, bool verbos
   {
     curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+#ifdef CURLOPT_SSL_VERIFYSTATUS
+    // OCSP stapling; curl learned it in 7.41, the N9 has 7.21.
     curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYSTATUS, 0L);
+#endif
   }
 
   _opts = NULL;

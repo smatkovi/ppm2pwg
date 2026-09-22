@@ -1,5 +1,10 @@
-LIB(poppler, "libpoppler-glib.so.8");
+#ifndef POPPLER_GLIB_SO
+#define POPPLER_GLIB_SO "libpoppler-glib.so.8"
+#endif
+LIB(poppler, POPPLER_GLIB_SO);
 FUNC(poppler, PopplerDocument*, poppler_document_new_from_file, const char*, const char*, GError**);
+// poppler 21.12 and later; only used when reading a PDF from stdin, which
+// the app never does. dlsym gives a null pointer on older poppler.
 FUNC(poppler, PopplerDocument*, poppler_document_new_from_fd, int, const char*, GError**);
 FUNC(poppler, int, poppler_document_get_n_pages, PopplerDocument*);
 FUNC(poppler, PopplerPage*, poppler_document_get_page, PopplerDocument*, int);
@@ -11,7 +16,9 @@ FUNC(cairo, cairo_surface_t*, cairo_ps_surface_create_for_stream, cairo_write_fu
 FUNC(cairo, void, cairo_ps_surface_restrict_to_level, cairo_surface_t*, cairo_ps_level_t);
 FUNC(cairo, cairo_surface_t*, cairo_image_surface_create, cairo_format_t, int, int);
 FUNC(cairo, cairo_surface_t*, cairo_pdf_surface_create_for_stream, cairo_write_func_t, void*, double, double);
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 16, 0)
 FUNC(cairo, void, cairo_pdf_surface_set_metadata, cairo_surface_t*, cairo_pdf_metadata_t, const char*);
+#endif
 FUNC(cairo, void, cairo_translate, cairo_t*, double, double);
 FUNC(cairo, void, cairo_scale, cairo_t*, double, double);
 FUNC(cairo, cairo_status_t, cairo_status, cairo_t*);
