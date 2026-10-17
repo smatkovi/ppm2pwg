@@ -163,6 +163,9 @@ CurlIppPoster::CurlIppPoster(std::string addr, const Bytestream& data, bool igno
 CurlIppStreamer::CurlIppStreamer(std::string addr, bool ignoreSslErrors, bool verbose)
   : CurlIppPosterBase(addr, ignoreSslErrors, verbose)
 {
+  // A document may be converted for a minute before this connects, and a
+  // phone's wifi sleeps in the meantime; two seconds is then not enough.
+  setConnectTimeout(15000);
   _opts = curl_slist_append(_opts, "Transfer-Encoding: chunked");
   doRun();
 }

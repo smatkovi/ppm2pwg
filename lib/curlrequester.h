@@ -21,6 +21,8 @@ public:
 
   virtual CURLcode await(Bytestream* = nullptr);
 
+  void setConnectTimeout(long ms) {curl_easy_setopt(_curl, CURLOPT_CONNECTTIMEOUT_MS, ms);}
+
 protected:
 
   CurlRequester(std::string addr, bool ignoreSslErrors, bool verbose);
