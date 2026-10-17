@@ -1,0 +1,9 @@
+LIB(jpeg, "libjpeg.so.62");
+FUNC(jpeg, struct jpeg_error_mgr*, jpeg_std_error, struct jpeg_error_mgr*);
+FUNC(jpeg, void, jpeg_CreateCompress, j_compress_ptr, int, size_t);
+FUNC(jpeg, void, jpeg_set_defaults, j_compress_ptr);
+FUNC(jpeg, void, jpeg_set_quality, j_compress_ptr, int, boolean);
+FUNC(jpeg, void, jpeg_start_compress, j_compress_ptr, boolean);
+FUNC(jpeg, JDIMENSION, jpeg_write_scanlines, j_compress_ptr, JSAMPARRAY, JDIMENSION);
+FUNC(jpeg, void, jpeg_finish_compress, j_compress_ptr);
+FUNC(jpeg, void, jpeg_destroy_compress, j_compress_ptr);

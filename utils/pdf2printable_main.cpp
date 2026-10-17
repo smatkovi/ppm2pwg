@@ -47,9 +47,10 @@ int main(int argc, char** argv)
                                                     {"postscript", PrintParameters::Postscript},
                                                     {"ps", PrintParameters::Postscript},
                                                     {"pwg", PrintParameters::PWG},
-                                                    {"urf", PrintParameters::URF}},
+                                                    {"urf", PrintParameters::URF},
+                                                    {"pclm", PrintParameters::PCLm}},
                                                    {"-f", "--format"},
-                                                   "Format to output (pdf/postscript/pwg/urf)",
+                                                   "Format to output (pdf/postscript/pwg/urf/pclm)",
                                                    "Unrecognized target format");
   SwitchArg<std::string> pagesOpt(pages, {"-p", "--pages"}, "What pages to process, e.g.: 1,17-42");
   SwitchArg<size_t> copiesOpt(params.copies, {"--copies"}, "Number of copies to output");

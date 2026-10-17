@@ -12,6 +12,9 @@ pdf2printable_mad.o: pdf2printable.cpp
 baselinify_mad.o: baselinify.cpp
 	$(CXX) -c -DMADNESS=1 $(CXXFLAGS) $^ -o $@
 
+rgb2jpeg_mad.o: rgb2jpeg.cpp
+	$(CXX) -c -DMADNESS=1 $(CXXFLAGS) $^ -o $@
+
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
@@ -21,10 +24,10 @@ ppm2pwg: bytestream.o printparameters.o ppm2pwg.o ppm2pwg_main.o
 pwg2ppm: bytestream.o pwg2ppm.o pwg2ppm_main.o
 	$(CXX) $^ -o $@
 
-pdf2printable: bytestream.o printparameters.o ppm2pwg.o pdf2printable.o pdf2printable_main.o
-	$(CXX) $^ $(shell pkg-config --libs poppler-glib) -o $@
+pdf2printable: bytestream.o printparameters.o ppm2pwg.o pdf2printable.o rgb2jpeg.o pdf2printable_main.o
+	$(CXX) $^ $(shell pkg-config --libs poppler-glib) -ljpeg -o $@
 
-pdf2printable_mad: bytestream.o printparameters.o ppm2pwg.o pdf2printable_mad.o pdf2printable_main.o
+pdf2printable_mad: bytestream.o printparameters.o ppm2pwg.o pdf2printable_mad.o rgb2jpeg_mad.o pdf2printable_main.o
 	$(CXX) $^ $(shell pkg-config --libs gobject-2.0) -ldl -o $@
 
 hexdump: bytestream.o hexdump.o

@@ -20,6 +20,9 @@ public:
     Postscript,
     PWG,
     URF,
+    // A PDF of nothing but horizontal image strips, which a printer takes a
+    // strip at a time rather than a page at a time -- see pdf_to_pclm().
+    PCLm,
     Invalid
   };
 
@@ -112,6 +115,10 @@ public:
 
   size_t hwResW = 300;
   size_t hwResH = 300;
+
+  // How many pixel rows one PCLm strip holds. Printers say what they want in
+  // pclm-strip-height-preferred; 16 is what they all seem to ask for.
+  size_t stripHeight = 16;
 
   enum PaperSizeUnits
   {
