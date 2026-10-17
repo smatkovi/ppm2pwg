@@ -20,6 +20,7 @@ public:
     Postscript,
     PWG,
     URF,
+    PCLm,
     Invalid
   };
 
@@ -112,6 +113,10 @@ public:
 
   size_t hwResW = 300;
   size_t hwResH = 300;
+
+  // Rows per strip for PCLm; printers say what they want in
+  // pclm-strip-height-preferred.
+  size_t stripHeight = 16;
 
   enum PaperSizeUnits
   {
